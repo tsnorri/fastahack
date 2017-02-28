@@ -8,6 +8,8 @@
 
 #include "Fasta.h"
 
+using namespace std;
+
 FastaIndexEntry::FastaIndexEntry(string name, int length, long long offset, int line_blen, int line_len)
     : name(name)
     , length(length)

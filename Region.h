@@ -4,30 +4,28 @@
 #include <string>
 #include <stdlib.h>
 
-using namespace std;
-
 class FastaRegion {
 public:
-    string startSeq;
+    std::string startSeq;
     int startPos;
     int stopPos;
 
-    FastaRegion(string& region) {
+    FastaRegion(std::string& region) {
         startPos = -1;
         stopPos = -1;
         size_t foundFirstColon = region.find(":");
         // we only have a single string, use the whole sequence as the target
-        if (foundFirstColon == string::npos) {
+        if (foundFirstColon == std::string::npos) {
             startSeq = region;
         } else {
             startSeq = region.substr(0, foundFirstColon);
             size_t foundRangeDots = region.find("..", foundFirstColon);
-	    size_t foundRangeDash = region.find("-", foundFirstColon);
-            if (foundRangeDots == string::npos && foundRangeDash == string::npos) {
+            size_t foundRangeDash = region.find("-", foundFirstColon);
+            if (foundRangeDots == std::string::npos && foundRangeDash == std::string::npos) {
                 startPos = atoi(region.substr(foundFirstColon + 1).c_str());
                 stopPos = startPos; // just print one base if we don't give an end
             } else {
-		if (foundRangeDash == string::npos) {
+		if (foundRangeDash == std::string::npos) {
 		    startPos = atoi(region.substr(foundFirstColon + 1, foundRangeDots - foundRangeDots - 1).c_str());
 		    stopPos = atoi(region.substr(foundRangeDots + 2).c_str()); // to the start of this chromosome
 		} else {

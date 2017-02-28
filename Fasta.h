@@ -25,15 +25,13 @@
 #include <unistd.h>
 #include "Region.h"
 
-using namespace std;
-
 class FastaIndexEntry {
-    friend ostream& operator<<(ostream& output, const FastaIndexEntry& e);
+    friend std::ostream& operator<<(std::ostream& output, const FastaIndexEntry& e);
     public:
-        FastaIndexEntry(string name, int length, long long offset, int line_blen, int line_len);
+        FastaIndexEntry(std::string name, int length, long long offset, int line_blen, int line_len);
         FastaIndexEntry(void);
         ~FastaIndexEntry(void);
-        string name;  // sequence name
+        std::string name;  // sequence name
         int length;  // length of sequence
         long long offset;  // bytes offset of sequence from start of file
         int line_blen;  // line length in bytes, sequence characters
@@ -41,45 +39,45 @@ class FastaIndexEntry {
         void clear(void);
 };
 
-class FastaIndex : public map<string, FastaIndexEntry> {
-    friend ostream& operator<<(ostream& output, FastaIndex& i);
+class FastaIndex : public std::map<std::string, FastaIndexEntry> {
+    friend std::ostream& operator<<(std::ostream& output, FastaIndex& i);
     public:
         FastaIndex(void);
         ~FastaIndex(void);
-        vector<string> sequenceNames;
-        map<string, unsigned int> sequenceID;
-        void indexReference(string refName);
-        void readIndexFile(string fname);
-        void writeIndexFile(string fname);
-        ifstream indexFile;
-        FastaIndexEntry entry(string key);
+        std::vector<std::string> sequenceNames;
+        std::map<std::string, unsigned int> sequenceID;
+        void indexReference(std::string refName);
+        void readIndexFile(std::string fname);
+        void writeIndexFile(std::string fname);
+        std::ifstream indexFile;
+        FastaIndexEntry entry(std::string key);
         void flushEntryToIndex(FastaIndexEntry& entry);
-        string indexFileExtension(void);
+        std::string indexFileExtension(void);
 };
 
 class FastaReference {
     public:
-        void open(string reffilename);
+        void open(std::string reffilename);
         bool usingmmap;
-        string filename;
+        std::string filename;
         FastaReference(void) : usingmmap(false) {
-	  file  = NULL;
-	  index = NULL;
-	}
+            file  = NULL;
+            index = NULL;
+        }
         ~FastaReference(void);
         FILE* file;
         void* filemm;
         size_t filesize;
         FastaIndex* index;
-        vector<FastaIndexEntry> findSequencesStartingWith(string seqnameStart);
-        string getSequence(string seqname);
+        std::vector<FastaIndexEntry> findSequencesStartingWith(std::string seqnameStart);
+        std::string getSequence(std::string seqname);
         // potentially useful for performance, investigate
-        // void getSequence(string seqname, string& sequence);
-        string getSubSequence(string seqname, int start, int length);
-        string getTargetSubSequence(FastaRegion& target);
-        string sequenceNameStartingWith(string seqnameStart);
-        unsigned int getSequenceID(string seqname);
-        long unsigned int sequenceLength(string seqname);
+        // void getSequence(std::string seqname, std::string& sequence);
+        std::string getSubSequence(std::string seqname, int start, int length);
+        std::string getTargetSubSequence(FastaRegion& target);
+        std::string sequenceNameStartingWith(std::string seqnameStart);
+        unsigned int getSequenceID(std::string seqname);
+        long unsigned int sequenceLength(std::string seqname);
 };
 
 #endif

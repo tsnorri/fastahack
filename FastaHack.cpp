@@ -4,6 +4,8 @@
 #include "disorder.h"
 #include "Region.h"
 
+using namespace std;
+
 void printSummary() {
     cerr << "usage: fastahack [options] <fasta reference>" << endl
          << endl
